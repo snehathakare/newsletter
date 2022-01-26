@@ -2,8 +2,10 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const request = require("request")
 const app = express()
+let ejs = require('ejs');
 
 app.use(bodyParser.urlencoded({ extended: true }))
+app.set('view engine', 'ejs');
 
 const users = [
     { name: 'Jack', age: 35 },
@@ -26,6 +28,15 @@ app.get('/', (req, res) => {
         message: "Hello world!",
         user: {}
     })
+})
+
+var today = new Date()
+var currentDay = today.getDay()
+
+app.get('/days', (req, res) => {
+    if (currentDay == 6 || currentDay == 0) { currentDay = "Weekend" }
+    else { currentDay = "Weekend" }
+    res.render("signup", { day: currentDay })
 })
 
 app.get('/users/:name', (req, res) => {
