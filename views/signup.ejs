@@ -4,6 +4,16 @@
     <title>Newsletter</title>
   </head>
   <body class="text-center">
-    <h1>Its a <%= day %></h1>
+    <h1><%= day %></h1>
+    <form action="/" method="POST">
+      <ul>
+        <h3>To do</h3>
+        <% for(var i=0; i<newItem.length;i++ ){ %>
+          <li><%= newItem[i] %></li>
+        <% } %>
+        <input type="text" name="newItem" placeholder="new todo" />
+        <button type="submit">Add task</button>
+      </ul>
+    </form>
   </body>
 </html>

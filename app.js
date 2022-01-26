@@ -23,20 +23,19 @@ app.get('/users', (req, res) => {
     res.send(users)
 })
 
+var today = new Date()
+var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+var currentDay = days[today.getDay()];
+var items = ["Make lunch", "Do the dishes", "Study"]
+
 app.get('/', (req, res) => {
-    res.send({
-        message: "Hello world!",
-        user: {}
-    })
+    res.render("signup", { day: currentDay, newItem: items })
 })
 
-var today = new Date()
-var currentDay = today.getDay()
-
-app.get('/days', (req, res) => {
-    if (currentDay == 6 || currentDay == 0) { currentDay = "Weekend" }
-    else { currentDay = "Weekend" }
-    res.render("signup", { day: currentDay })
+app.post('/', (req, res) => {
+    var item = req.body.newItem
+    items.push(item)
+    res.redirect("/")
 })
 
 app.get('/users/:name', (req, res) => {
