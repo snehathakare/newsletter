@@ -3,6 +3,7 @@ const bodyParser = require("body-parser")
 const request = require("request")
 const app = express()
 let ejs = require('ejs');
+const date = require(__dirname + "/date")
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static("public"))
@@ -24,12 +25,10 @@ app.get('/users', (req, res) => {
     res.send(users)
 })
 
-var today = new Date()
-var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-var currentDay = days[today.getDay()];
 var items = ["Make lunch", "Do the dishes", "Study"]
 
 app.get('/', (req, res) => {
+    let currentDay = date()
     res.render("signup", { day: currentDay, newItem: items })
 })
 
