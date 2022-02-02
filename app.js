@@ -4,6 +4,33 @@ const request = require("request")
 const app = express()
 let ejs = require('ejs');
 const date = require(__dirname + "/date")
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb://localhost:27017/todolistDB', { useNewUrlParser: true });
+
+//schema
+const itemsSchema = {
+    name: String
+};
+//model based on schema
+const Item = mongoose.model('Item', itemsSchema);
+
+//creating documents based on model
+const item1 = new Item({
+    name: "Complete the course"
+})
+const item2 = new Item({
+    name: "Write an article on NodeJs"
+})
+const item3 = new Item({
+    name: "Study DSA alogrithms"
+})
+
+const defaultItems = [item1, item2, item3]
+
+Item.insertMany(defaultItems, function (error) {
+    console.log(error)
+});
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static("public"))
@@ -21,14 +48,14 @@ const posts = [
     { title: 'My favorite places', id: 3 }
 ]
 
+var items = ["Make lunch", "Do the dishes", "Study"]
+
 app.get('/users', (req, res) => {
     res.send(users)
 })
 
-var items = ["Make lunch", "Do the dishes", "Study"]
-
 app.get('/', (req, res) => {
-    let currentDay = date()
+    let currentDay = date.getDate()
     res.render("signup", { day: currentDay, newItem: items })
 })
 
@@ -60,9 +87,3 @@ app.get('/posts', (req, res) => {
 
 app.listen(3000)
 
-
-//mailchimp api key
-//8ecc24ac91b6cffc15e58d8828aba557-us20
-
-//listid
-//594184
