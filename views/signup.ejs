@@ -9,9 +9,9 @@
     <form action="/" method="POST">
       <ul>
         <h3>To do</h3>
-        <% for(var i=0; i<newItem.length;i++ ){ %>
-          <li><%= newItem[i] %></li>
-        <% } %>
+        <% newItem.forEach(function(item){%>
+        <li><%= item.name %></li>
+        <% }) %>
         <input type="text" name="newItem" placeholder="new todo" />
         <button type="submit">Add task</button>
       </ul>

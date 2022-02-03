@@ -28,10 +28,6 @@ const item3 = new Item({
 
 const defaultItems = [item1, item2, item3]
 
-Item.insertMany(defaultItems, function (error) {
-    console.log(error)
-});
-
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static("public"))
 app.set('view engine', 'ejs');
@@ -55,14 +51,28 @@ app.get('/users', (req, res) => {
 })
 
 app.get('/', (req, res) => {
+
     let currentDay = date.getDate()
-    res.render("signup", { day: currentDay, newItem: items })
+    Item.find({}, function (err, foundItems) {
+        if (foundItems.length === 0) {
+            Item.insertMany(defaultItems, function (error) {
+                console.log(error)
+            });
+            res.redirect('/')
+        }
+        else {
+            res.render("signup", { day: currentDay, newItem: foundItems })
+        }
+    })
 })
 
 app.post('/', (req, res) => {
-    var item = req.body.newItem
-    items.push(item)
-    res.redirect("/")
+    var itemName = req.body.newItem
+    const item = new Item({
+        name: itemName
+    })
+    item.save()
+    res.redirect('/')
 })
 
 app.get('/users/:name', (req, res) => {
