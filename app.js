@@ -16,17 +16,17 @@ const itemsSchema = {
 const Item = mongoose.model('Item', itemsSchema);
 
 //creating documents based on model
-const item1 = new Item({
-    name: "Complete the course"
-})
-const item2 = new Item({
-    name: "Write an article on NodeJs"
-})
-const item3 = new Item({
-    name: "Study DSA alogrithms"
-})
+// const item1 = new Item({
+//     name: "Complete the course"
+// })
+// const item2 = new Item({
+//     name: "Write an article on NodeJs"
+// })
+// const item3 = new Item({
+//     name: "Study DSA alogrithms"
+// })
 
-const defaultItems = [item1, item2, item3]
+// const defaultItems = [item1, item2, item3]
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static("public"))
@@ -43,8 +43,6 @@ const posts = [
     { title: 'My first blog', id: 2 },
     { title: 'My favorite places', id: 3 }
 ]
-
-var items = ["Make lunch", "Do the dishes", "Study"]
 
 app.get('/users', (req, res) => {
     res.send(users)
@@ -73,6 +71,18 @@ app.post('/', (req, res) => {
     })
     item.save()
     res.redirect('/')
+})
+
+app.post('/delete', (req, res) => {
+    const checkedItemId = req.body.checkbox
+
+    Item.findByIdAndRemove(checkedItemId, function (err) {
+        if (!err) {
+            console.log("Item deleted successfully")
+            res.redirect("/")
+        }
+
+    })
 })
 
 app.get('/users/:name', (req, res) => {

@@ -10,7 +10,17 @@
       <ul>
         <h3>To do</h3>
         <% newItem.forEach(function(item){%>
-        <li><%= item.name %></li>
+        <form action="/delete" method="POST">
+          <div class="todoItem">
+            <input
+              type="checkbox"
+              value="<%= item._id %>"
+              onChange="this.form.submit()"
+              name="checkbox"
+            />
+            <p><%= item.name %></p>
+          </div>
+        </form>
         <% }) %>
         <input type="text" name="newItem" placeholder="new todo" />
         <button type="submit">Add task</button>

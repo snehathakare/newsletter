@@ -11,3 +11,9 @@ body {
   background-color: plum;
   flex-direction: column;
 }
+
+.todoItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
